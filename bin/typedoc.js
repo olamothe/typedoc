@@ -2327,6 +2327,12 @@ var td;
                 }
             }
             var result;
+            if (node.kind != 227 /* SourceFile */) {
+                var comment = td.converter.CommentPlugin.getComment(node);
+                if (comment == null || comment == '') {
+                    return null;
+                }
+            }
             switch (node.kind) {
                 case 227 /* SourceFile */:
                     result = visitSourceFile(context, node);

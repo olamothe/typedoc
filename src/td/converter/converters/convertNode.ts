@@ -70,6 +70,12 @@ module td.converter
         }
 
         var result:models.Reflection;
+        if (node.kind != ts.SyntaxKind.SourceFile) {
+            var comment = td.converter.CommentPlugin.getComment(node);
+            if (comment == null || comment == '') {
+                return null;
+            }
+        }
         switch (node.kind) {
             case ts.SyntaxKind.SourceFile:
                 result = visitSourceFile(context, <ts.SourceFile>node);
