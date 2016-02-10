@@ -70,11 +70,8 @@ module td.converter
         }
 
         var result:models.Reflection;
-        if (node.kind != ts.SyntaxKind.SourceFile && node.kind != ts.SyntaxKind.ModuleDeclaration && node.kind != ts.SyntaxKind.ModuleBlock) {
-            var comment = td.converter.CommentPlugin.getComment(node);
-            if (comment == null || comment == '') {
-                return null;
-            }
+        if(shouldSkipDocumentationForNode(node)) {
+            return null;
         }
         switch (node.kind) {
             case ts.SyntaxKind.SourceFile:
@@ -167,6 +164,38 @@ module td.converter
 
         context.visitStack = oldVisitStack;
         return result;
+    }
+
+    function shouldSkipDocumentationForNode(node:ts.Node) {
+        // We don't want to force every source file to be documented
+        // Every node of every file will be visited
+        if (node.kind == ts.SyntaxKind.SourceFile) {
+            return false;
+        }
+
+        var comment = td.converter.CommentPlugin.getComment(node);
+
+        // Module are special : We want to document every components. Every component should be in Coveo.Components module.
+        // We don't want to force every component source file to document their module block, so we allow it.
+        // Same goes for the global Coveo module
+        if(node.kind == ts.SyntaxKind.ModuleBlock || node.kind == ts.SyntaxKind.ModuleDeclaration) {
+            if(node['name'] && (node['name'].text.toLowerCase() == 'coveo' || node['name'].text.toLowerCase() == 'components')) {
+                return false;
+            } else {
+                // Skip every other module that are not explicitely documented
+                if(comment == null || comment == '') {
+                    return true;
+                }
+            }
+        } else {
+            // All other node are considered the same : If there is no documentation for this node, skip it.
+            // This is granular : A class can be documented, but not every node/member/property of that class
+            if(comment == null || comment == '') {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 

@@ -2326,11 +2326,8 @@ var td;
                 }
             }
             var result;
-            if (node.kind != 246 /* SourceFile */ && node.kind != 216 /* ModuleDeclaration */ && node.kind != 217 /* ModuleBlock */) {
-                var comment = td.converter.CommentPlugin.getComment(node);
-                if (comment == null || comment == '') {
-                    return null;
-                }
+            if (shouldSkipDocumentationForNode(node)) {
+                return null;
             }
             switch (node.kind) {
                 case 246 /* SourceFile */:
@@ -2406,6 +2403,36 @@ var td;
             return result;
         }
         converter.visit = visit;
+        function shouldSkipDocumentationForNode(node) {
+            // We don't want to force every source file to be documented
+            // Every node of every file will be visited
+            if (node.kind == 246 /* SourceFile */) {
+                return false;
+            }
+            var comment = td.converter.CommentPlugin.getComment(node);
+            // Module are special : We want to document every components. Every component should be in Coveo.Components module.
+            // We don't want to force every component source file to document their module block, so we allow it.
+            // Same goes for the global Coveo module
+            if (node.kind == 217 /* ModuleBlock */ || node.kind == 216 /* ModuleDeclaration */) {
+                if (node['name'] && (node['name'].text.toLowerCase() == 'coveo' || node['name'].text.toLowerCase() == 'components')) {
+                    return false;
+                }
+                else {
+                    // Skip every other module that are not explicitely documented
+                    if (comment == null || comment == '') {
+                        return true;
+                    }
+                }
+            }
+            else {
+                // All other node are considered the same : If there is no documentation for this node, skip it.
+                // This is granular : A class can be documented, but not every node/member/property of that class
+                if (comment == null || comment == '') {
+                    return true;
+                }
+            }
+            return false;
+        }
         function visitBlock(context, node) {
             if (node.statements) {
                 var prefered = [212 /* ClassDeclaration */, 213 /* InterfaceDeclaration */, 215 /* EnumDeclaration */];
