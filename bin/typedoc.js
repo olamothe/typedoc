@@ -2280,16 +2280,16 @@ var td;
             if (!node.initializer)
                 return;
             switch (node.initializer.kind) {
-                case 8 /* StringLiteral */:
+                case 9 /* StringLiteral */:
                     return '"' + node.initializer.text + '"';
                     break;
-                case 7 /* NumericLiteral */:
+                case 8 /* NumericLiteral */:
                     return node.initializer.text;
                     break;
-                case 95 /* TrueKeyword */:
+                case 97 /* TrueKeyword */:
                     return 'true';
                     break;
-                case 80 /* FalseKeyword */:
+                case 82 /* FalseKeyword */:
                     return 'false';
                     break;
                 default:
@@ -2326,79 +2326,79 @@ var td;
                 }
             }
             var result;
-            if (node.kind != 227 /* SourceFile */) {
+            if (node.kind != 246 /* SourceFile */) {
                 var comment = td.converter.CommentPlugin.getComment(node);
                 if (comment == null || comment == '') {
                     return null;
                 }
             }
             switch (node.kind) {
-                case 227 /* SourceFile */:
+                case 246 /* SourceFile */:
                     result = visitSourceFile(context, node);
                     break;
-                case 174 /* ClassExpression */:
-                case 201 /* ClassDeclaration */:
+                case 184 /* ClassExpression */:
+                case 212 /* ClassDeclaration */:
                     result = visitClassDeclaration(context, node);
                     break;
-                case 202 /* InterfaceDeclaration */:
+                case 213 /* InterfaceDeclaration */:
                     result = visitInterfaceDeclaration(context, node);
                     break;
-                case 205 /* ModuleDeclaration */:
+                case 216 /* ModuleDeclaration */:
                     result = visitModuleDeclaration(context, node);
                     break;
-                case 180 /* VariableStatement */:
+                case 191 /* VariableStatement */:
                     result = visitVariableStatement(context, node);
                     break;
-                case 131 /* PropertySignature */:
-                case 132 /* PropertyDeclaration */:
-                case 224 /* PropertyAssignment */:
-                case 225 /* ShorthandPropertyAssignment */:
-                case 198 /* VariableDeclaration */:
-                case 152 /* BindingElement */:
+                case 138 /* PropertySignature */:
+                case 139 /* PropertyDeclaration */:
+                case 243 /* PropertyAssignment */:
+                case 244 /* ShorthandPropertyAssignment */:
+                case 209 /* VariableDeclaration */:
+                case 161 /* BindingElement */:
                     result = visitVariableDeclaration(context, node);
                     break;
-                case 204 /* EnumDeclaration */:
+                case 215 /* EnumDeclaration */:
                     result = visitEnumDeclaration(context, node);
                     break;
-                case 226 /* EnumMember */:
+                case 245 /* EnumMember */:
                     result = visitEnumMember(context, node);
                     break;
-                case 135 /* Constructor */:
-                case 139 /* ConstructSignature */:
+                case 142 /* Constructor */:
+                case 146 /* ConstructSignature */:
                     result = visitConstructor(context, node);
                     break;
-                case 133 /* MethodSignature */:
-                case 134 /* MethodDeclaration */:
-                case 200 /* FunctionDeclaration */:
+                case 140 /* MethodSignature */:
+                case 141 /* MethodDeclaration */:
+                case 211 /* FunctionDeclaration */:
                     result = visitFunctionDeclaration(context, node);
                     break;
-                case 136 /* GetAccessor */:
+                case 143 /* GetAccessor */:
                     result = visitGetAccessorDeclaration(context, node);
                     break;
-                case 137 /* SetAccessor */:
+                case 144 /* SetAccessor */:
                     result = visitSetAccessorDeclaration(context, node);
                     break;
-                case 138 /* CallSignature */:
-                case 142 /* FunctionType */:
+                case 145 /* CallSignature */:
+                case 150 /* FunctionType */:
                     result = visitCallSignatureDeclaration(context, node);
                     break;
-                case 140 /* IndexSignature */:
+                case 147 /* IndexSignature */:
                     result = visitIndexSignatureDeclaration(context, node);
                     break;
-                case 179 /* Block */:
-                case 206 /* ModuleBlock */:
+                case 190 /* Block */:
+                case 217 /* ModuleBlock */:
                     result = visitBlock(context, node);
                     break;
-                case 154 /* ObjectLiteralExpression */:
+                case 163 /* ObjectLiteralExpression */:
                     result = visitObjectLiteral(context, node);
                     break;
-                case 145 /* TypeLiteral */:
+                case 153 /* TypeLiteral */:
                     result = visitTypeLiteral(context, node);
                     break;
-                case 214 /* ExportAssignment */:
+                case 225 /* ExportAssignment */:
                     result = visitExportAssignment(context, node);
                     break;
-                case 203 /* TypeAliasDeclaration */:
+                case 214 /* TypeAliasDeclaration */:
                     result = visitTypeAliasDeclaration(context, node);
                     break;
             }
@@ -2408,7 +2408,7 @@ var td;
         converter.visit = visit;
         function visitBlock(context, node) {
             if (node.statements) {
-                var prefered = [201 /* ClassDeclaration */, 202 /* InterfaceDeclaration */, 204 /* EnumDeclaration */];
+                var prefered = [212 /* ClassDeclaration */, 213 /* InterfaceDeclaration */, 215 /* EnumDeclaration */];
                 var statements = [];
                 node.statements.forEach(function (statement) {
                     if (prefered.indexOf(statement.kind) != -1) {
@@ -2617,12 +2617,12 @@ var td;
             context.withScope(variable, function () {
                 if (node.initializer) {
                     switch (node.initializer.kind) {
-                        case 163 /* ArrowFunction */:
-                        case 162 /* FunctionExpression */:
+                        case 172 /* ArrowFunction */:
+                        case 171 /* FunctionExpression */:
                             variable.kind = scope.kind & td.models.ReflectionKind.ClassOrInterface ? td.models.ReflectionKind.Method : td.models.ReflectionKind.Function;
                             visitCallSignatureDeclaration(context, node.initializer);
                             break;
-                        case 154 /* ObjectLiteralExpression */:
+                        case 163 /* ObjectLiteralExpression */:
                             if (!isSimpleObjectLiteral(node.initializer)) {
                                 variable.kind = td.models.ReflectionKind.ObjectLiteral;
                                 variable.type = new td.models.IntrinsicType('object');
@@ -2911,13 +2911,13 @@ var td;
                 }
                 // Node based type conversions by node kind
                 switch (node.kind) {
-                    case 8 /* StringLiteral */:
+                    case 9 /* StringLiteral */:
                         return convertStringLiteralExpression(node);
-                    case 146 /* ArrayType */:
+                    case 154 /* ArrayType */:
                         return convertArrayTypeNode(context, node);
-                    case 147 /* TupleType */:
+                    case 155 /* TupleType */:
                         return convertTupleTypeNode(context, node);
-                    case 148 /* UnionType */:
+                    case 156 /* UnionType */:
                         return convertUnionTypeNode(context, node);
                 }
                 // Node based type conversions by type flags
@@ -3334,7 +3334,7 @@ var td;
          * @returns The type reflection representing the given binding pattern.
          */
         function convertDestructuringType(context, node) {
-            if (node.kind == 151 /* ArrayBindingPattern */) {
+            if (node.kind == 160 /* ArrayBindingPattern */) {
                 var types = [];
                 node.elements.forEach(function (element) {
                     types.push(convertType(context, element));
@@ -3773,7 +3773,7 @@ var td;
             }
             // Test whether the node is exported
             var isExported = container.kindOf(td.models.ReflectionKind.Module) ? false : container.flags.isExported;
-            if (node.parent && node.parent.kind == 199 /* VariableDeclarationList */) {
+            if (node.parent && node.parent.kind == 210 /* VariableDeclarationList */) {
                 isExported = isExported || !!(node.parent.parent.flags & 1 /* Export */);
             }
             else {
@@ -3793,10 +3793,10 @@ var td;
             if (nonStaticKinds.indexOf(kind) == -1) {
                 isStatic = !!(node.flags & 128 /* Static */);
                 if (container.kind == td.models.ReflectionKind.Class) {
-                    if (node.parent && node.parent.kind == 135 /* Constructor */) {
+                    if (node.parent && node.parent.kind == 142 /* Constructor */) {
                         isConstructorProperty = true;
                     }
-                    else if (!node.parent || node.parent.kind != 201 /* ClassDeclaration */) {
+                    else if (!node.parent || node.parent.kind != 212 /* ClassDeclaration */) {
                         isStatic = true;
                     }
                 }
@@ -3943,7 +3943,7 @@ var td;
          */
         function extractSignatureType(context, node) {
             var checker = context.checker;
-            if (node.kind & 138 /* CallSignature */ || node.kind & 157 /* CallExpression */) {
+            if (node.kind & 145 /* CallSignature */ || node.kind & 166 /* CallExpression */) {
                 try {
                     var signature = checker.getSignatureFromDeclaration(node);
                     return converter.convertType(context, node.type, checker.getReturnTypeOfSignature(signature));
@@ -4244,10 +4244,10 @@ var td;
             CommentPlugin.getComment = function (node) {
                 var sourceFile = ts.getSourceFileOfNode(node);
                 var target = node;
-                if (node.kind == 205 /* ModuleDeclaration */) {
+                if (node.kind == 216 /* ModuleDeclaration */) {
                     var a, b;
                     // Ignore comments for cascaded modules, e.g. module A.B { }
-                    if (node.nextContainer && node.nextContainer.kind == 205 /* ModuleDeclaration */) {
+                    if (node.nextContainer && node.nextContainer.kind == 216 /* ModuleDeclaration */) {
                         a = node;
                         b = node.nextContainer;
                         if (a.name.end + 1 == b.name.pos) {
@@ -4255,7 +4255,7 @@ var td;
                         }
                     }
                     // Pull back comments of cascaded modules
-                    while (target.parent && target.parent.kind == 205 /* ModuleDeclaration */) {
+                    while (target.parent && target.parent.kind == 216 /* ModuleDeclaration */) {
                         a = target;
                         b = target.parent;
                         if (a.name.pos == b.name.end + 1) {
@@ -4266,13 +4266,13 @@ var td;
                         }
                     }
                 }
-                if (node.parent && node.parent.kind == 199 /* VariableDeclarationList */) {
+                if (node.parent && node.parent.kind == 210 /* VariableDeclarationList */) {
                     target = node.parent.parent;
                 }
                 var comments = ts.getJsDocComments(target, sourceFile);
                 if (comments && comments.length) {
                     var comment;
-                    if (node.kind == 227 /* 'SourceFile' */) {
+                    if (node.kind == 246 /* 'SourceFile' */) {
                         if (comments.length == 1)
                             return null;
                         comment = comments[0];
@@ -4508,10 +4508,10 @@ var td;
                     var callExpression;
                     var identifier;
                     switch (decorator.expression.kind) {
-                        case 65 /* Identifier */:
+                        case 67 /* Identifier */:
                             identifier = decorator.expression;
                             break;
-                        case 157 /* CallExpression */:
+                        case 166 /* CallExpression */:
                             callExpression = decorator.expression;
                             identifier = callExpression.expression;
                             break;
