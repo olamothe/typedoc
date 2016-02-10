@@ -2410,28 +2410,18 @@ var td;
                 return false;
             }
             var comment = td.converter.CommentPlugin.getComment(node);
-            // Module are special : We want to document every components. Every component should be in Coveo.Components module.
-            // We don't want to force every component source file to document their module block, so we allow it.
-            // Same goes for the global Coveo module
             if (node.kind == 217 /* ModuleBlock */ || node.kind == 216 /* ModuleDeclaration */) {
-                if (node['name'] && (node['name'].text.toLowerCase() == 'coveo' || node['name'].text.toLowerCase() == 'components')) {
-                    return false;
-                }
-                else {
-                    // Skip every other module that are not explicitely documented
-                    if (comment == null || comment == '') {
-                        return true;
-                    }
-                }
-            }
-            else {
-                // All other node are considered the same : If there is no documentation for this node, skip it.
-                // This is granular : A class can be documented, but not every node/member/property of that class
-                if (comment == null || comment == '') {
+                if (comment != null && comment.indexOf('@nodoc') != -1) {
                     return true;
                 }
+                else {
+                    return false;
+                }
             }
-            return false;
+            if (comment != null && comment != '') {
+                return false;
+            }
+            return true;
         }
         function visitBlock(context, node) {
             if (node.statements) {
