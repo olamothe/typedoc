@@ -41,6 +41,7 @@ module td.models
         equals(type:TypeParameterType):boolean {
             return type instanceof TypeParameterType &&
                 type.isArray == this.isArray &&
+                type.constraint &&
                 type.constraint.equals(this.constraint) &&
                 type.name == this.name;
         }

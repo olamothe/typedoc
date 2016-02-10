@@ -2326,7 +2326,7 @@ var td;
                 }
             }
             var result;
-            if (node.kind != 246 /* SourceFile */) {
+            if (node.kind != 246 /* SourceFile */ && node.kind != 216 /* ModuleDeclaration */ && node.kind != 217 /* ModuleBlock */) {
                 var comment = td.converter.CommentPlugin.getComment(node);
                 if (comment == null || comment == '') {
                     return null;
@@ -6858,6 +6858,7 @@ var td;
             TypeParameterType.prototype.equals = function (type) {
                 return type instanceof TypeParameterType &&
                     type.isArray == this.isArray &&
+                    type.constraint &&
                     type.constraint.equals(this.constraint) &&
                     type.name == this.name;
             };

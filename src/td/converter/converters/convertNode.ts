@@ -70,7 +70,7 @@ module td.converter
         }
 
         var result:models.Reflection;
-        if (node.kind != ts.SyntaxKind.SourceFile) {
+        if (node.kind != ts.SyntaxKind.SourceFile && node.kind != ts.SyntaxKind.ModuleDeclaration && node.kind != ts.SyntaxKind.ModuleBlock) {
             var comment = td.converter.CommentPlugin.getComment(node);
             if (comment == null || comment == '') {
                 return null;
