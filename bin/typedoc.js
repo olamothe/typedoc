@@ -5020,6 +5020,7 @@ var td;
                         return;
                     }
                     var group = new td.models.ReflectionGroup(GroupPlugin.getKindPlural(child.kind), child.kind);
+                    // Component Options is not a realy typescript type : Fudge the group title after the fact.
                     if (child.flags.isCoveoComponentOptions) {
                         group.title = 'Component Options';
                     }
@@ -5123,7 +5124,6 @@ var td;
                 td.models.ReflectionKind.Class,
                 td.models.ReflectionKind.Interface,
                 td.models.ReflectionKind.TypeAlias,
-                td.models.ReflectionKind.Constructor,
                 td.models.ReflectionKind.Event,
                 td.models.ReflectionKind.Property,
                 td.models.ReflectionKind.Variable,
@@ -5131,6 +5131,7 @@ var td;
                 td.models.ReflectionKind.Accessor,
                 td.models.ReflectionKind.Method,
                 td.models.ReflectionKind.ObjectLiteral,
+                td.models.ReflectionKind.Constructor,
                 td.models.ReflectionKind.Parameter,
                 td.models.ReflectionKind.TypeParameter,
                 td.models.ReflectionKind.TypeLiteral,

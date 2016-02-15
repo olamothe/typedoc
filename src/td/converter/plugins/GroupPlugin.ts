@@ -19,8 +19,7 @@ module td.converter
             models.ReflectionKind.Class,
             models.ReflectionKind.Interface,
             models.ReflectionKind.TypeAlias,
-
-            models.ReflectionKind.Constructor,
+            
             models.ReflectionKind.Event,
             models.ReflectionKind.Property,
             models.ReflectionKind.Variable,
@@ -28,6 +27,7 @@ module td.converter
             models.ReflectionKind.Accessor,
             models.ReflectionKind.Method,
             models.ReflectionKind.ObjectLiteral,
+            models.ReflectionKind.Constructor,
 
             models.ReflectionKind.Parameter,
             models.ReflectionKind.TypeParameter,
