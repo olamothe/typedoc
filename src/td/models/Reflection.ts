@@ -75,7 +75,8 @@ module td.models
         Optional = 128,
         DefaultValue = 256,
         Rest = 512,
-        ConstructorProperty = 1024
+        ConstructorProperty = 1024,
+        CoveoComponentOptions = 2048
     }
 
 
@@ -143,6 +144,8 @@ module td.models
         hasExportAssignment?:boolean;
 
         isConstructorProperty?:boolean;
+        
+        isCoveoComponentOptions?:boolean;
     }
 
 
@@ -426,6 +429,10 @@ module td.models
                 case ReflectionFlag.ConstructorProperty:
                     this.flags.isConstructorProperty = value;
                     break;
+                case ReflectionFlag.CoveoComponentOptions:
+                    this.flags.isCoveoComponentOptions = value;
+                    break;
+                    
             }
         }
 

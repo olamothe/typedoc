@@ -161,8 +161,12 @@ module td.converter
                 result = visitTypeAliasDeclaration(context, <ts.TypeAliasDeclaration>node);
                 break;
         }
-
+        
         context.visitStack = oldVisitStack;
+        var comment = td.converter.CommentPlugin.getComment(node);
+        if(result && comment != null && comment.indexOf('@componentOptions')) {
+          result.setFlag(models.ReflectionFlag.CoveoComponentOptions, true);
+        }
         return result;
     }
 

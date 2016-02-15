@@ -2400,6 +2400,10 @@ var td;
                     break;
             }
             context.visitStack = oldVisitStack;
+            var comment = td.converter.CommentPlugin.getComment(node);
+            if (result && comment != null && comment.indexOf('@componentOptions')) {
+                result.setFlag(td.models.ReflectionFlag.CoveoComponentOptions, true);
+            }
             return result;
         }
         converter.visit = visit;
@@ -3451,6 +3455,7 @@ var td;
             ReflectionFlag[ReflectionFlag["DefaultValue"] = 256] = "DefaultValue";
             ReflectionFlag[ReflectionFlag["Rest"] = 512] = "Rest";
             ReflectionFlag[ReflectionFlag["ConstructorProperty"] = 1024] = "ConstructorProperty";
+            ReflectionFlag[ReflectionFlag["CoveoComponentOptions"] = 2048] = "CoveoComponentOptions";
         })(models.ReflectionFlag || (models.ReflectionFlag = {}));
         var ReflectionFlag = models.ReflectionFlag;
         var relevantFlags = [
@@ -3598,6 +3603,9 @@ var td;
                         break;
                     case ReflectionFlag.ConstructorProperty:
                         this.flags.isConstructorProperty = value;
+                        break;
+                    case ReflectionFlag.CoveoComponentOptions:
+                        this.flags.isCoveoComponentOptions = value;
                         break;
                 }
             };
@@ -5012,6 +5020,9 @@ var td;
                         return;
                     }
                     var group = new td.models.ReflectionGroup(GroupPlugin.getKindPlural(child.kind), child.kind);
+                    if (child.flags.isCoveoComponentOptions) {
+                        group.title = 'Component Options';
+                    }
                     group.children.push(child);
                     groups.push(group);
                 });
@@ -5081,6 +5092,13 @@ var td;
             GroupPlugin.sortCallback = function (a, b) {
                 var aWeight = GroupPlugin.WEIGHTS.indexOf(a.kind);
                 var bWeight = GroupPlugin.WEIGHTS.indexOf(b.kind);
+                // Special sort for component options : Try to put them at the top of each class
+                if (a.flags.isCoveoComponentOptions && b.kind > td.models.ReflectionKind.Class) {
+                    return -1;
+                }
+                else if (b.flags.isCoveoComponentOptions && a.kind > td.models.ReflectionKind.Class) {
+                    return 1;
+                }
                 if (aWeight == bWeight) {
                     if (a.flags.isStatic && !b.flags.isStatic)
                         return 1;

@@ -1296,6 +1296,7 @@ declare module td.models {
         DefaultValue = 256,
         Rest = 512,
         ConstructorProperty = 1024,
+        CoveoComponentOptions = 2048,
     }
     interface IReflectionFlags extends Array<string> {
         flags?: ReflectionFlag;
@@ -1338,6 +1339,7 @@ declare module td.models {
          */
         hasExportAssignment?: boolean;
         isConstructorProperty?: boolean;
+        isCoveoComponentOptions?: boolean;
     }
     interface IDefaultValueContainer extends Reflection {
         defaultValue: string;

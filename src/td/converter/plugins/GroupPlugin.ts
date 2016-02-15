@@ -146,6 +146,10 @@ module td.converter
                 }
 
                 var group = new models.ReflectionGroup(GroupPlugin.getKindPlural(child.kind), child.kind);
+                // Component Options is not a realy typescript type : Fudge the group title after the fact.
+                if(child.flags.isCoveoComponentOptions) {
+                  group.title = 'Component Options';
+                }
                 group.children.push(child);
                 groups.push(group);
             });
@@ -224,6 +228,12 @@ module td.converter
         static sortCallback(a:models.Reflection, b:models.Reflection):number {
             var aWeight = GroupPlugin.WEIGHTS.indexOf(a.kind);
             var bWeight = GroupPlugin.WEIGHTS.indexOf(b.kind);
+            // Special sort for component options : Try to put them at the top of each class
+            if(a.flags.isCoveoComponentOptions && b.kind > models.ReflectionKind.Class) {
+              return -1;
+            } else if(b.flags.isCoveoComponentOptions && a.kind > models.ReflectionKind.Class) {
+              return 1;
+            }
             if (aWeight == bWeight) {
                 if (a.flags.isStatic && !b.flags.isStatic) return 1;
                 if (!a.flags.isStatic && b.flags.isStatic) return -1;
