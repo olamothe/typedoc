@@ -20,12 +20,12 @@ module td.converter
             models.ReflectionKind.Interface,
             models.ReflectionKind.TypeAlias,
             
+            models.ReflectionKind.Method,
             models.ReflectionKind.Event,
             models.ReflectionKind.Property,
             models.ReflectionKind.Variable,
             models.ReflectionKind.Function,
             models.ReflectionKind.Accessor,
-            models.ReflectionKind.Method,
             models.ReflectionKind.ObjectLiteral,
             models.ReflectionKind.Constructor,
 
