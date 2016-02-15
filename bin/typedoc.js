@@ -2401,7 +2401,7 @@ var td;
             }
             context.visitStack = oldVisitStack;
             var comment = td.converter.CommentPlugin.getComment(node);
-            if (result && comment != null && comment.indexOf('@componentOptions')) {
+            if (result && comment != null && comment.indexOf('@componentOptions') != -1) {
                 result.setFlag(td.models.ReflectionFlag.CoveoComponentOptions, true);
             }
             return result;
