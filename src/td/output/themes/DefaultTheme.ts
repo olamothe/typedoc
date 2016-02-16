@@ -87,6 +87,11 @@ module td.output
             isLeaf:    false,
             directory: 'modules',
             template:  'reflection.hbs'
+        },{
+          kind: [models.ReflectionKind.CoveoComponent],
+          isLeaf: false,
+          directory: 'components',
+          template : 'reflection.hbs'
         }];
 
 
@@ -466,7 +471,9 @@ module td.output
          */
         static applyReflectionClasses(reflection:models.DeclarationReflection) {
             var classes = [];
-
+            if(reflection.kind == models.ReflectionKind.CoveoComponent) {
+              classes.push('tsd-kind-class');
+            }
             if (reflection.kind == models.ReflectionKind.Accessor) {
                 if (!reflection.getSignature) {
                     classes.push('tsd-kind-set-signature');
@@ -483,6 +490,9 @@ module td.output
             if (reflection.parent && reflection.parent instanceof models.DeclarationReflection) {
                 kind = models.ReflectionKind[reflection.parent.kind];
                 classes.push(DefaultTheme.toStyleClass('tsd-parent-kind-'+ kind));
+                if(models.ReflectionKind[kind] == models.ReflectionKind.CoveoComponent) {
+                  classes.push(DefaultTheme.toStyleClass('tsd-parent-kind-' + models.ReflectionKind[models.ReflectionKind.Class]))
+                }
             }
 
             var hasTypeParameters = !!reflection.typeParameters;

@@ -54,6 +54,7 @@ module td.models
         ObjectLiteral = 2097152,
         TypeAlias = 4194304,
         Event = 8388608,
+        CoveoComponent = 16777216,
 
         ClassOrInterface = Class | Interface,
         VariableOrProperty = Variable | Property,

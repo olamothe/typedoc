@@ -2404,6 +2404,14 @@ var td;
             if (result && comment != null && comment.indexOf('@componentOptions') != -1) {
                 result.setFlag(td.models.ReflectionFlag.CoveoComponentOptions, true);
             }
+            if (result && result instanceof td.models.DeclarationReflection) {
+                var declarationReflection = result;
+                declarationReflection.extendedTypes.forEach(function (type) {
+                    if (type.toString() == 'component') {
+                        result.kind = td.models.ReflectionKind.CoveoComponent;
+                    }
+                });
+            }
             return result;
         }
         converter.visit = visit;
@@ -3436,6 +3444,7 @@ var td;
             ReflectionKind[ReflectionKind["ObjectLiteral"] = 2097152] = "ObjectLiteral";
             ReflectionKind[ReflectionKind["TypeAlias"] = 4194304] = "TypeAlias";
             ReflectionKind[ReflectionKind["Event"] = 8388608] = "Event";
+            ReflectionKind[ReflectionKind["CoveoComponent"] = 16777216] = "CoveoComponent";
             ReflectionKind[ReflectionKind["ClassOrInterface"] = 384] = "ClassOrInterface";
             ReflectionKind[ReflectionKind["VariableOrProperty"] = 1056] = "VariableOrProperty";
             ReflectionKind[ReflectionKind["FunctionOrMethod"] = 2112] = "FunctionOrMethod";
@@ -8963,6 +8972,9 @@ var td;
              */
             DefaultTheme.applyReflectionClasses = function (reflection) {
                 var classes = [];
+                if (reflection.kind == td.models.ReflectionKind.CoveoComponent) {
+                    classes.push('tsd-kind-class');
+                }
                 if (reflection.kind == td.models.ReflectionKind.Accessor) {
                     if (!reflection.getSignature) {
                         classes.push('tsd-kind-set-signature');
@@ -8981,6 +8993,9 @@ var td;
                 if (reflection.parent && reflection.parent instanceof td.models.DeclarationReflection) {
                     kind = td.models.ReflectionKind[reflection.parent.kind];
                     classes.push(DefaultTheme.toStyleClass('tsd-parent-kind-' + kind));
+                    if (td.models.ReflectionKind[kind] == td.models.ReflectionKind.CoveoComponent) {
+                        classes.push(DefaultTheme.toStyleClass('tsd-parent-kind-' + td.models.ReflectionKind[td.models.ReflectionKind.Class]));
+                    }
                 }
                 var hasTypeParameters = !!reflection.typeParameters;
                 reflection.getAllSignatures().forEach(function (signature) {
@@ -9053,6 +9068,11 @@ var td;
                     kind: [td.models.ReflectionKind.Module, td.models.ReflectionKind.ExternalModule],
                     isLeaf: false,
                     directory: 'modules',
+                    template: 'reflection.hbs'
+                }, {
+                    kind: [td.models.ReflectionKind.CoveoComponent],
+                    isLeaf: false,
+                    directory: 'components',
                     template: 'reflection.hbs'
                 }];
             return DefaultTheme;

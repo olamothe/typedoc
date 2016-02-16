@@ -1278,6 +1278,7 @@ declare module td.models {
         ObjectLiteral = 2097152,
         TypeAlias = 4194304,
         Event = 8388608,
+        CoveoComponent = 16777216,
         ClassOrInterface = 384,
         VariableOrProperty = 1056,
         FunctionOrMethod = 2112,

@@ -167,6 +167,14 @@ module td.converter
         if(result && comment != null && comment.indexOf('@componentOptions') != -1) {
           result.setFlag(models.ReflectionFlag.CoveoComponentOptions, true);
         }
+        if(result && result instanceof models.DeclarationReflection) {
+          var declarationReflection: models.DeclarationReflection = <models.DeclarationReflection>result;
+          declarationReflection.extendedTypes.forEach((type)=>{
+            if(type.toString() == 'component') {
+              result.kind = models.ReflectionKind.CoveoComponent;
+            }
+          })
+        }
         return result;
     }
 
