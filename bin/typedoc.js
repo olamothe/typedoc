@@ -2406,11 +2406,13 @@ var td;
             }
             if (result && result instanceof td.models.DeclarationReflection) {
                 var declarationReflection = result;
-                declarationReflection.extendedTypes.forEach(function (type) {
-                    if (type.toString() == 'component') {
-                        result.kind = td.models.ReflectionKind.CoveoComponent;
-                    }
-                });
+                if (declarationReflection.extendedTypes) {
+                    declarationReflection.extendedTypes.forEach(function (type) {
+                        if (type.toString().toLowerCase() == 'component') {
+                            result.kind = td.models.ReflectionKind.CoveoComponent;
+                        }
+                    });
+                }
             }
             return result;
         }

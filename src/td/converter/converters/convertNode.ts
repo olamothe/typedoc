@@ -169,11 +169,13 @@ module td.converter
         }
         if(result && result instanceof models.DeclarationReflection) {
           var declarationReflection: models.DeclarationReflection = <models.DeclarationReflection>result;
-          declarationReflection.extendedTypes.forEach((type)=>{
-            if(type.toString() == 'component') {
-              result.kind = models.ReflectionKind.CoveoComponent;
-            }
-          })
+          if(declarationReflection.extendedTypes) {
+            declarationReflection.extendedTypes.forEach((type)=>{
+              if(type.toString().toLowerCase() == 'component') {
+                result.kind = models.ReflectionKind.CoveoComponent;
+              }
+            })
+          }
         }
         return result;
     }
