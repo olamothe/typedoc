@@ -5036,6 +5036,11 @@ var td;
                         group.title = 'Component Options';
                     }
                     group.children.push(child);
+                    if (group.title == 'Component Options') {
+                        if (group.children[0].children) {
+                            group.children = group.children[0].children;
+                        }
+                    }
                     groups.push(group);
                 });
                 groups.forEach(function (group) {
