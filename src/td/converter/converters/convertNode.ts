@@ -176,6 +176,13 @@ module td.converter
               }
             })
           }
+          if(declarationReflection.implementedTypes) {
+            declarationReflection.implementedTypes.forEach((impl)=>{
+                if(impl.toString().toLowerCase().indexOf('icomponentbindings') >= 0) {
+                    result.kind = models.ReflectionKind.CoveoComponent;
+                }
+            })
+          }
         }
         return result;
     }

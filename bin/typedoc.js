@@ -2413,6 +2413,13 @@ var td;
                         }
                     });
                 }
+                if (declarationReflection.implementedTypes) {
+                    declarationReflection.implementedTypes.forEach(function (impl) {
+                        if (impl.toString().toLowerCase().indexOf('icomponentbindings') >= 0) {
+                            result.kind = td.models.ReflectionKind.CoveoComponent;
+                        }
+                    });
+                }
             }
             return result;
         }
